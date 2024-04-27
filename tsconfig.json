@@ -22,11 +22,6 @@
     /* Type Orm */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "baseUrl": "./",
-    "paths" : {
-      "@/*": ["src/*"],
-      "App/*" : ["./src/App/*"] 
-    },
   },
   "include": ["src", "electron"],
   "references": [{ "path": "./tsconfig.node.json" }]

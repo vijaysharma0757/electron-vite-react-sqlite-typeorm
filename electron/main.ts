@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Notification } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import AppDataSource from './db'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -59,6 +60,25 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
+
+    AppDataSource.initialize()
+      .then(async () => {
+        const dbNotification = new Notification({
+          title: "DB connection",
+          body: "Data Source has been initialized!",
+        });
+        dbNotification.show();
+        console.log("Data Source has been initialized! ");
+        return true;
+      })
+      .catch((err) => {
+        const dbNotification = new Notification({
+          title: "DB connection",
+          body: `Error during Data Source initialization${err}`,
+        });
+        dbNotification.show();
+        console.error("Error during Data Source initialization", err);
+      });
     createWindow()
   }
 })
